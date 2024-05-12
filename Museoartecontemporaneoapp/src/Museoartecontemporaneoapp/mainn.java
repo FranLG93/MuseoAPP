@@ -41,31 +41,39 @@ public class mainn {
 
 	// CREAMOS EL OBJETO Y METEMOS LA IMAGEN PARA INTRODUCIRLO EN EL JOPTION
 
-	private static String imagen = "C:\\\\Users\\\\VORPC\\\\Desktop\\\\PROYECTO-FINAL-MUSEO\\\\Nuevacarpeta\\\\QRlogo.png";
+	private static String imagen = "C:\\Users\\VORPC\\Desktop\\Museo-proyecto-final-Francisco-Luengo-Gomez\\\\Nuevacarpeta\\\\QRlogo.png";
 	private static ImageIcon icono = new ImageIcon(imagen);
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		
+		// CAMBIAMOS LA FUENTE Y EL TAMAÑO DE NUESTRA APP
+		Font font = new Font("Arial", Font.PLAIN, 20);
+		UIManager.put("OptionPane.messageFont", font);
+		
 		// LLAMAMOS A NUESTRO REGISTRO PARA PODER INICIAR SESION EN NUESTRA APP
-
+		
 		boolean iniciar = true;
 		while (iniciar) {
 
-			// CAMBIAMOS LA FUENTE Y EL TAMAÑO DE NUESTRA APP
-
-			Font font = new Font("Arial", Font.PLAIN, 20);
-			UIManager.put("OptionPane.messageFont", font);
 			String usuario = JOptionPane.showInputDialog(null, "            Usuario ", "",
 					JOptionPane.INFORMATION_MESSAGE, icono, null, null).toString();
 			String contraseña = JOptionPane.showInputDialog(null, "         Contraseña ", "",
 					JOptionPane.INFORMATION_MESSAGE, icono, null, null).toString();
-
+if (usuario ==null||contraseña == null){
+	JOptionPane.showMessageDialog(null, "No es correcto, Volviendo al menu de inicio, ");
+	return;
+	
+}
+			
+			
 			if ("museoadmin".equals(usuario))
 				if ("museo1234".equals(contraseña)) {
 
 					Font font1 = new Font("Arial", Font.PLAIN, 15);
 					UIManager.put("OptionPane.messageFont", font1);
+					
 					JOptionPane.showMessageDialog(null, "Bienvenido al museo de arte contemporaneo");
 					mainn mainn = new mainn();
 					mainn.menuprincipal();
@@ -79,9 +87,7 @@ public class mainn {
 	}
 
 	public static void menuprincipal() {
-		Font font = new Font("Arial", Font.PLAIN, 15);
-		UIManager.put("OptionPane.messageFont", font);
-
+		
 		// METEMOS UN TRY Y CATCH PARA EVITAR ERRORES Y PODER ENLAZARLO CORRECTAMENTE
 		// CON NUESTRA BASE DE DATOS
 
@@ -92,6 +98,10 @@ public class mainn {
 			Statement consulta = conexion.createStatement();
 
 			int opcion = 0;
+			
+			Font font = new Font("Arial", Font.PLAIN, 15);
+			UIManager.put("OptionPane.messageFont", font);
+
 
 			do {
 				try {

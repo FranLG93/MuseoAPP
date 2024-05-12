@@ -28,7 +28,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+
 
 import javax.swing.JOptionPane;
 
@@ -131,11 +131,11 @@ public class trabajadores extends persona {
 		}
 
 		while (true) {
-			cargo = JOptionPane.showInputDialog(null, "Ingresa el cargo del trabajador ");
+			posicion = JOptionPane.showInputDialog(null, "Ingresa el cargo del trabajador ");
 
 			// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
 			// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
-			if (cargo == null || posicion.trim().isEmpty()) {
+			if (posicion == null || posicion.trim().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "El cargo es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
 				JOptionPane.showMessageDialog(null, "Cancelando... Regresando al menu principal");
 				return;
@@ -160,7 +160,7 @@ public class trabajadores extends persona {
 
 		try {
 			int telefonoint = Integer.parseInt(telefono);
-			trabajadores nuevotrabajador = new trabajadores(dni, nombre, telefonoint, posicion, departamento, null);
+			trabajadores nuevotrabajadores = new trabajadores(dni, nombre, telefonoint, posicion, departamento, null);
 
 			// CONECTAMOS LA BAASE DE DATOS
 

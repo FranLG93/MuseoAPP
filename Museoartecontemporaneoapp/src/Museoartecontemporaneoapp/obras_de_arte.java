@@ -135,11 +135,9 @@ public class obras_de_arte {
 			}
 		}
 
-		while (true) {
-			nombre = JOptionPane.showInputDialog(null, "Ingresa el nombre de la obra de arte ");
-
+	
 			while (true) {
-				nombre = JOptionPane.showInputDialog(null, "Ingresa el nombre de la obra de arte ");
+				nombre = JOptionPane.showInputDialog(null, "Ingresa el nombre de la obra ");
 
 				// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
 				// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
@@ -155,7 +153,7 @@ public class obras_de_arte {
 			}
 
 			while (true) {
-				autor = JOptionPane.showInputDialog(null, "Ingresa el autor de la obra de arte ");
+				autor = JOptionPane.showInputDialog(null, "Ingresa el autor de la obra ");
 
 				// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
 				// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
@@ -171,7 +169,7 @@ public class obras_de_arte {
 			}
 
 			while (true) {
-				tipo = JOptionPane.showInputDialog(null, "Ingresa el tipo de la obra de arte ");
+				tipo = JOptionPane.showInputDialog(null, "Ingresa la tecnica de la obra ");
 
 				// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
 				// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
@@ -185,49 +183,11 @@ public class obras_de_arte {
 					break;
 				}
 			}
-			if (nombre == null || nombre.trim().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "El nombre de la obra es obligatorio", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				JOptionPane.showMessageDialog(null, "Cancelando... Regresando al menu principal");
-				return;
-			} else {
-				break;
-			}
-		}
-
+			
+		
+			
 		while (true) {
-			autor = JOptionPane.showInputDialog(null, "Ingresa el autor de la obra de arte ");
-
-			// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
-			// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
-
-			if (autor == null || autor.trim().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "El autor de la obra es obligatorio", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				JOptionPane.showMessageDialog(null, "Cancelando... Regresando al menu principal");
-				return;
-			} else {
-				break;
-			}
-		}
-
-		while (true) {
-			tipo = JOptionPane.showInputDialog(null, "Ingresa el tipo de la obra de arte ");
-
-			// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
-			// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
-
-			if (tipo == null || tipo.trim().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "El tipo de la obra es obligatorio", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				JOptionPane.showMessageDialog(null, "Cancelando... Regresando al menu principal");
-				return;
-			} else {
-				break;
-			}
-		}
-		while (true) {
-			estilo = JOptionPane.showInputDialog(null, "Ingresa el estilo de la obra de arte ");
+			estilo = JOptionPane.showInputDialog(null, "Ingresa el estilo de la obra ");
 
 			// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
 			// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
@@ -242,7 +202,7 @@ public class obras_de_arte {
 		}
 
 		while (true) {
-			fecha = JOptionPane.showInputDialog(null, "Ingresa la fecha de creación de la obra de arte ");
+			fecha = JOptionPane.showInputDialog(null, "Ingresa la fecha de creacion de la obra");
 
 			// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
 			// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
@@ -255,8 +215,9 @@ public class obras_de_arte {
 				break;
 			}
 		}
+	
 		try {
-			obras_de_arte nuevaObraDeArte = new obras_de_arte(id_obra, nombre, autor, tipo, estilo, fecha);
+			obras_de_arte nuevaObras_de_arte = new obras_de_arte(id_obra, nombre, autor, tipo, estilo, fecha);
 
 			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/museo", "museoadmin",
 					"museo1234");
@@ -268,10 +229,14 @@ public class obras_de_arte {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error al ingresar la obra " + e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
-
 		}
-	}
-
+			}
+	
+	
+	
+	
+	
+	
 	// METODO PARA EDITRAR OBRAS
 	static void editarobrasdearte(Connection conexion) {
 		String id_obra, nuevonombre, nuevoautor, nuevotipo, nuevoestilo, nuevafecha;
@@ -330,12 +295,12 @@ public class obras_de_arte {
 		}
 
 		while (true) {
-			nuevotipo = JOptionPane.showInputDialog(null, "Ingresa el nuevo tipo de la obra");
+			nuevotipo = JOptionPane.showInputDialog(null, "Ingresa la nueva tecnica de la obra");
 
 			// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
 			// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
 			if (nuevotipo == null || nuevotipo.trim().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "El nuevo tipo es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "La nueva tecnica es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
 				JOptionPane.showMessageDialog(null, "Cancelando... Regresando al menu principal");
 				return;
 			} else {
@@ -378,9 +343,9 @@ public class obras_de_arte {
 			consulta.executeUpdate("UPDATE obras_de_arte SET Nombre = '" + nuevonombre + "', Autor = '" + nuevoautor
 					+ "', Tipo = '" + nuevotipo + "', Estilo = '" + nuevoestilo + "', Fecha = '" + nuevafecha
 					+ "' WHERE ID_Obra = '" + id_obra + "'");
-			JOptionPane.showMessageDialog(null, "Obra de arte actualizada correctamente");
+			JOptionPane.showMessageDialog(null, "Obra actualizada correctamente");
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error al actualizar la obra de arte " + e.getMessage(), "Error",
+			JOptionPane.showMessageDialog(null, "Error al actualizar la obra" + e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -391,12 +356,12 @@ public class obras_de_arte {
 		String id_obra;
 
 		while (true) {
-			id_obra = JOptionPane.showInputDialog(null, "Ingresa id de la obra de arte a borrar");
+			id_obra = JOptionPane.showInputDialog(null, "Ingresa id de la obra a borrar");
 
 			// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
 			// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
 			if (id_obra == null || id_obra.trim().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "El id de la obra de arte es obligatorio ", "Error",
+				JOptionPane.showMessageDialog(null, "El id de la obra es obligatorio ", "Error",
 						JOptionPane.ERROR_MESSAGE);
 				JOptionPane.showMessageDialog(null, "Cancelando... Regresando al menu principal");
 				return;
@@ -414,7 +379,7 @@ public class obras_de_arte {
 			if (filasAfectadas > 0) {
 				JOptionPane.showMessageDialog(null, "Obra eliminada correctamente");
 			} else {
-				JOptionPane.showMessageDialog(null, "No se encontro la obra de arte con id: " + id_obra, "Error",
+				JOptionPane.showMessageDialog(null, "No se encontro la obra de con id: " + id_obra, "Error",
 						JOptionPane.ERROR_MESSAGE);
 			}
 		} catch (SQLException e) {
@@ -424,3 +389,4 @@ public class obras_de_arte {
 	}
 
 }
+
