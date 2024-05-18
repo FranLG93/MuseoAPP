@@ -27,6 +27,7 @@ package Museoartecontemporaneoapp;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -219,11 +220,18 @@ public class obras_de_arte {
 		try {
 			obras_de_arte nuevaObras_de_arte = new obras_de_arte(id_obra, nombre, autor, tipo, estilo, fecha);
 
-			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/museo", "museoadmin",
-					"museo1234");
-			Statement consulta = conexion.createStatement();
-			consulta.executeUpdate("INSERT INTO obras_de_arte (ID_Obra, Nombre, Autor, Tipo, Estilo, Fecha) VALUES ('"
-					+ id_obra + "','" + nombre + "','" + autor + "','" + tipo + "','" + estilo + "','" + fecha + "')");
+			  // CONECTAMOS LA BASE DE DATOS
+	        Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/museo", "museoadmin", "museo1234");
+	        String sql = "INSERT INTO obras_de_arte (ID_Obra, Nombre, Autor, Tipo, Estilo, Fecha) VALUES (?, ?, ?, ?, ?, ?)";
+	        PreparedStatement consulta = conexion.prepareStatement(sql);
+	        consulta.setString(1, id_obra);
+	        consulta.setString(2, nombre);
+	        consulta.setString(3, autor);
+	        consulta.setString(4, tipo);
+	        consulta.setString(5, estilo);
+	        consulta.setString(6, fecha);
+
+	        consulta.executeUpdate();
 			conexion.close();
 			JOptionPane.showMessageDialog(null, "Obra ingresada correctamente");
 		} catch (SQLException e) {

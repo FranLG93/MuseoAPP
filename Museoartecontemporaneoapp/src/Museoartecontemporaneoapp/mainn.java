@@ -27,16 +27,21 @@ package Museoartecontemporaneoapp;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
+
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-
+import java.text.SimpleDateFormat;
 public class mainn {
 
 	// CREAMOS EL OBJETO Y METEMOS LA IMAGEN PARA INTRODUCIRLO EN EL JOPTION
@@ -119,9 +124,9 @@ if (usuario ==null||contraseña == null){
 							"Bienvenido al sistema de gestion del Museo:  \n                         " + dia
 									+ "                  \n                               " + hora
 									+ "\n         Que es lo que deseas hacer\n" + "\n 1. Agregar trabajador\n"
-									+ "\n 2. Agregar visitante\n" + "\n 3. Agregar obra de arte\n"
-									+ "\n 4. Editar datos\n" + "\n 5. Borrar datos\n"
-									+ "\n 6. Ver datos guardados en la base de datos\n" + "\n 7. Salir\n",
+									+ "\n 2. Agregar visitante\n" + "\n 3. Agregar obra de arte\n"  + "\n 4. Agregar una reserva\n"
+									+ "\n 5. Editar datos\n" + "\n 6. Borrar datos\n"
+									+ "\n 7. Ver datos guardados en la base de datos\n" + "\n 8. Salir\n",
 							"\n                                                                             Museo de arte contemporaneo \n"
 
 							, JOptionPane.INFORMATION_MESSAGE, icono, null, null).toString());
@@ -139,15 +144,19 @@ if (usuario ==null||contraseña == null){
 						O1.agregarobrasdearte();
 						break;
 					case 4:
-						editardatos(conexion);
+						reserva r1 = new reserva(null, null, 0, null, null, 0, null);
+						r1.agregarunareserva();
 						break;
 					case 5:
+						editardatos(conexion);
+						break;
+					case 6:
 						borrardatos(conexion);
 						break;
 
-					case 6:
-						verdatos(conexion);
 					case 7:
+						verdatos(conexion);
+					case 8:
 						JOptionPane.showMessageDialog(null,
 								"Gracias por usar el sistema del museo, \n            Saliendo del sistema...\n",
 								"Museo de arte contemporaneo", JOptionPane.INFORMATION_MESSAGE, icono);
@@ -163,7 +172,7 @@ if (usuario ==null||contraseña == null){
 							JOptionPane.ERROR_MESSAGE);
 				}
 
-			} while (opcion != 7);
+			} while (opcion != 8);
 
 			// CERRAMOS LA CONEXION CON LA BASE DE DATOS
 			conexion.close();
@@ -203,7 +212,7 @@ if (usuario ==null||contraseña == null){
 	private static void borrardatos(Connection conexion) {
 		int borr = Integer.parseInt(JOptionPane.showInputDialog(null,
 				"Seleccione el tipo de dato que desea borrar\n" + "1. Trabajadores\n" + "2. Visitantes\n"
-						+ "3. Obras de arte\n",
+						+ "3. Obras de arte\n"+ "4. Reservas\n",
 				"Eliminar datos", JOptionPane.QUESTION_MESSAGE, icono, null, null).toString());
 
 		switch (borr) {
@@ -219,6 +228,9 @@ if (usuario ==null||contraseña == null){
 			obras_de_arte b3 = new obras_de_arte(null, null, null, null, null, null);
 			((obras_de_arte) b3).borrarobradearte(conexion);
 			break;
+		case 4:
+			reserva b4 = new reserva(null, null, 0, null, null, 0, null);
+			((reserva)b4).borrarreserva(conexion);
 		default:
 			JOptionPane.showMessageDialog(null, "Esto no se puede hacer", "Error", JOptionPane.ERROR_MESSAGE);
 			break;
@@ -227,7 +239,7 @@ if (usuario ==null||contraseña == null){
 
 	private static void verdatos(Connection conexion) {
 		int tipoConsulta = Integer.parseInt(JOptionPane.showInputDialog(null,
-				"Que datos que quieres ver:\n" + "1. Trabajadores\n" + "2. Visitantes\n" + "3. Obras de Arte\n",
+				"Que datos que quieres ver:\n" + "1. Trabajadores\n" + "2. Visitantes\n" + "3. Obras de Arte\n" + "4. Reservas\n",
 				"Consulta de datos", JOptionPane.QUESTION_MESSAGE, icono, null, null).toString());
 
 		try {
@@ -262,12 +274,27 @@ if (usuario ==null||contraseña == null){
 							+ "\n";
 				}
 				break;
+			
+			
+		case 4:
+			resultado = consulta.executeQuery("SELECT * FROM reservas");
+			while (resultado.next()) {
+				datos += "id: " + resultado.getString("id") + ", Nombre: " + resultado.getString("nombre")
+						+ ", Email: " + resultado.getString("Telefono") + ", Telefono: " + resultado.getString("Telefono")
+						+ ", Fecha: " + resultado.getString("Fecha") + ", Hora: " + resultado.getString("Hora") + ", Personas: " + resultado.getString("Personas")
+						+ ", Comentarios: " + resultado.getString("Comentarios")
+						+ "\n";
 			}
+			break;
+		}
 			JOptionPane.showMessageDialog(null, datos.isEmpty() ? "No nada que mostrar." : datos);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error al consultar los datos: " + e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE, icono);
 		}
-
 	}
 }
+	
+	
+
+	

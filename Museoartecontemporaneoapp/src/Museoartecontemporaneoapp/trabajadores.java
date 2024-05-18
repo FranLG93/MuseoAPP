@@ -26,6 +26,7 @@ package Museoartecontemporaneoapp;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -161,16 +162,17 @@ public class trabajadores extends persona {
 		try {
 			int telefonoint = Integer.parseInt(telefono);
 			trabajadores nuevotrabajadores = new trabajadores(dni, nombre, telefonoint, posicion, departamento, null);
+			 // CONECTAMOS LA BASE DE DATOS
+	        Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/museo", "museoadmin", "museo1234");
+	        String sql = "INSERT INTO trabajadores (ID_Trabajador, Nombre, Posicion, Departamento, Contacto) VALUES (?, ?, ?, ?, ?)";
+	        PreparedStatement consulta = conexion.prepareStatement(sql);
+	        consulta.setString(1, dni);
+	        consulta.setString(2, nombre);
+	        consulta.setString(3, posicion);
+	        consulta.setString(4, departamento);
+	        consulta.setInt(5, telefonoint);
 
-			// CONECTAMOS LA BAASE DE DATOS
-
-			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/museo", "museoadmin",
-					"museo1234");
-			Statement consulta = conexion.createStatement();
-			consulta.executeUpdate(
-					"INSERT INTO trabajadores (ID_Trabajador, Nombre, Posicion, Departamento, Contacto) VALUES ('" + dni
-							+ "','" + nombre + "','" + posicion + "','" + departamento + "','" + telefono + "')");
-
+	        consulta.executeUpdate();
 			// CERRAMOS LA CONEXION CON LA BASE DE DATOS
 			conexion.close();
 			JOptionPane.showMessageDialog(null, "Trabajador ingresado");
