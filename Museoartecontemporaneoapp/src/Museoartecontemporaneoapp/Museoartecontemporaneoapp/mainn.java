@@ -1,5 +1,7 @@
 package Museoartecontemporaneoapp;
 
+import java.awt.Desktop;
+
 /*
  * MIT License
  * 
@@ -25,6 +27,8 @@ package Museoartecontemporaneoapp;
  */
 
 import java.awt.Font;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -37,6 +41,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -126,7 +131,7 @@ if (usuario ==null||contraseña == null){
 									+ "\n         Que es lo que deseas hacer\n" + "\n 1. Agregar trabajador\n"
 									+ "\n 2. Agregar visitante\n" + "\n 3. Agregar obra de arte\n"  + "\n 4. Agregar una reserva\n"
 									+ "\n 5. Editar datos\n" + "\n 6. Borrar datos\n"
-									+ "\n 7. Ver datos guardados en la base de datos\n" + "\n 8. Salir\n",
+									+ "\n 7. Ver datos guardados en la base de datos\n" + "\n 8.Ir a la pagina web\n" + "\n 9. Salir\n",
 							"\n                                                                             Museo de arte contemporaneo \n"
 
 							, JOptionPane.INFORMATION_MESSAGE, icono, null, null).toString());
@@ -156,7 +161,26 @@ if (usuario ==null||contraseña == null){
 
 					case 7:
 						verdatos(conexion);
-					case 8:
+					case 8 :
+						
+						//VINCULACION A PAG WEB
+						  File web = new File("C:\\Users\\VORPC\\Desktop\\Museo-proyecto-final-Francisco-Luengo-Gomez\\WEB MUSEO\\museo.html");
+					        if (web.exists()) {
+					            try {
+					                Desktop.getDesktop().open(web);
+					            } catch (IOException e) {
+					                e.printStackTrace();
+					            } catch (IllegalArgumentException e) {
+					                System.err.println("El archivo no es válido o no puede ser abierto.");
+					                e.printStackTrace();
+					            }
+					        } else {
+					            System.err.println("El archivo no existe.");
+					        }
+					    
+					
+					
+					case 9:
 						JOptionPane.showMessageDialog(null,
 								"Gracias por usar el sistema del museo, \n            Saliendo del sistema...\n",
 								"Museo de arte contemporaneo", JOptionPane.INFORMATION_MESSAGE, icono);
