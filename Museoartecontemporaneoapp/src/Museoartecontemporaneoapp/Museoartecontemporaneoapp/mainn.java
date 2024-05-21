@@ -27,7 +27,9 @@ import java.awt.Desktop;
  */
 
 import java.awt.Font;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -47,6 +49,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import java.text.SimpleDateFormat;
+
 public class mainn {
 
 	// CREAMOS EL OBJETO Y METEMOS LA IMAGEN PARA INTRODUCIRLO EN EL JOPTION
@@ -131,7 +134,7 @@ if (usuario ==null||contraseña == null){
 									+ "\n         Que es lo que deseas hacer\n" + "\n 1. Agregar trabajador\n"
 									+ "\n 2. Agregar visitante\n" + "\n 3. Agregar obra de arte\n"  + "\n 4. Agregar una reserva\n"
 									+ "\n 5. Editar datos\n" + "\n 6. Borrar datos\n"
-									+ "\n 7. Ver datos guardados en la base de datos\n" + "\n 8.Ir a la pagina web\n" + "\n 9. Salir\n",
+									+ "\n 7. Ver datos guardados en la base de datos\n" + "\n 8. Ir a la pagina web\n" + "\n 9. Salir\n",
 							"\n                                                                             Museo de arte contemporaneo \n"
 
 							, JOptionPane.INFORMATION_MESSAGE, icono, null, null).toString());
@@ -163,7 +166,7 @@ if (usuario ==null||contraseña == null){
 						verdatos(conexion);
 					case 8 :
 						
-						//VINCULACION A PAG WEB
+						//VINCULACION A PAG WEB (Ayuda dani)
 						  File web = new File("C:\\Users\\VORPC\\Desktop\\Museo-proyecto-final-Francisco-Luengo-Gomez\\WEB MUSEO\\museo.html");
 					        if (web.exists()) {
 					            try {
@@ -263,10 +266,11 @@ if (usuario ==null||contraseña == null){
 
 	private static void verdatos(Connection conexion) {
 		int tipoConsulta = Integer.parseInt(JOptionPane.showInputDialog(null,
-				"Que datos que quieres ver:\n" + "1. Trabajadores\n" + "2. Visitantes\n" + "3. Obras de Arte\n" + "4. Reservas\n",
+				"Que datos que quieres ver:\n" + "1. Trabajadores\n" + "2. Visitantes\n" + "3. Obras de Arte\n"
+						+ "4. Reservas\n",
 				"Consulta de datos", JOptionPane.QUESTION_MESSAGE, icono, null, null).toString());
 
-		try {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("datos_museo.txt", true))) {
 			Statement consulta = conexion.createStatement();
 			ResultSet resultado;
 			String datos = "";
@@ -298,27 +302,22 @@ if (usuario ==null||contraseña == null){
 							+ "\n";
 				}
 				break;
-			
-			
-		case 4:
-			resultado = consulta.executeQuery("SELECT * FROM reservas");
-			while (resultado.next()) {
-				datos += "id: " + resultado.getString("id") + ", Nombre: " + resultado.getString("nombre")
-						+ ", Email: " + resultado.getString("Telefono") + ", Telefono: " + resultado.getString("Telefono")
-						+ ", Fecha: " + resultado.getString("Fecha") + ", Hora: " + resultado.getString("Hora") + ", Personas: " + resultado.getString("Personas")
-						+ ", Comentarios: " + resultado.getString("Comentarios")
-						+ "\n";
+			case 4:
+				resultado = consulta.executeQuery("SELECT * FROM reservas");
+				while (resultado.next()) {
+					datos += "ID: " + resultado.getString("id") + ", Nombre: " + resultado.getString("nombre")
+							+ ", Email: " + resultado.getString("Telefono") + ", Telefono: "
+							+ resultado.getString("Telefono") + ", Fecha: " + resultado.getString("Fecha") + ", Hora: "
+							+ resultado.getString("Hora") + ", Personas: " + resultado.getString("Personas")
+							+ ", Comentarios: " + resultado.getString("Comentarios") + "\n";
+				}
+				break;
 			}
-			break;
-		}
-			JOptionPane.showMessageDialog(null, datos.isEmpty() ? "No nada que mostrar." : datos);
-		} catch (SQLException e) {
+			writer.write(datos.isEmpty() ? "No hay nada que mostrar.\n" : datos);
+			JOptionPane.showMessageDialog(null, datos.isEmpty() ? "No hay nada que mostrar." : datos);
+		} catch (SQLException | IOException e) {
 			JOptionPane.showMessageDialog(null, "Error al consultar los datos: " + e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE, icono);
 		}
 	}
 }
-	
-	
-
-	
