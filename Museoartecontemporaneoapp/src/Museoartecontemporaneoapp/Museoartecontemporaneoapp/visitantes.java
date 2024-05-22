@@ -29,6 +29,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 
@@ -145,7 +148,7 @@ public class visitantes extends persona {
 		}
 
 		while (true) {
-			fecha = JOptionPane.showInputDialog(null, "Ingresa la fecha de visita");
+			fecha = JOptionPane.showInputDialog(null, "Ingresa la fecha de visita (DD-MM-YYYY)");
 			// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
 			// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
 
@@ -161,7 +164,19 @@ public class visitantes extends persona {
 
 		try {
 			int telefonoInt = Integer.parseInt(telefono);
-			visitantes nuevovisitante = new visitantes(dni, nombre, telefonoInt, fecha, 0, null);
+			
+			//AQUI PONEMOS Y DECALARAMOS ESTOS OBJETOS PARA QUE INTRODUZCAMOS  DE LA MANERA NORMAL LA FECHA Y EN LA BASE DE DATOS QUEDE EN FORMATO DATE DE AÑO,MES,DIA
+	        SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+	        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        Date date = null;
+			try {
+				date = inputFormat.parse(fecha);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        String fecha2 = outputFormat.format(date);
+			visitantes nuevovisitante = new visitantes(dni, nombre, telefonoInt, fecha2, 0, null);
 
 			 // CONECTAMOS LA BASE DE DATOS
 	        Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/museo", "museoadmin", "museo1234");
@@ -171,7 +186,7 @@ public class visitantes extends persona {
 	        consulta.setString(2, nombre);
 	        consulta.setString(3, correo);
 	        consulta.setInt(4, telefonoInt);
-	        consulta.setString(5, fecha);
+	        consulta.setString(5, fecha2);
 
 	        consulta.executeUpdate();
 			// CERRAMOS LA CONEXION

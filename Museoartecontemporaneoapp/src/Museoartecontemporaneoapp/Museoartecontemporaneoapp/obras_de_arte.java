@@ -30,7 +30,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 
@@ -203,7 +206,7 @@ public class obras_de_arte {
 		}
 
 		while (true) {
-			fecha = JOptionPane.showInputDialog(null, "Ingresa la fecha de creacion de la obra");
+			fecha = JOptionPane.showInputDialog(null, "Ingresa la fecha de creacion de la obra (DD-MM-YYYY)");
 
 			// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
 			// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
@@ -218,7 +221,18 @@ public class obras_de_arte {
 		}
 	
 		try {
-			obras_de_arte nuevaObras_de_arte = new obras_de_arte(id_obra, nombre, autor, tipo, estilo, fecha);
+			//AQUI PONEMOS Y DECALARAMOS ESTOS OBJETOS PARA QUE INTRODUZCAMOS  DE LA MANERA NORMAL LA FECHA Y EN LA BASE DE DATOS QUEDE EN FORMATO DATE DE AÑO,MES,DIA
+	        SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+	        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        Date date = null;
+			try {
+				date = inputFormat.parse(fecha);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        String fecha3 = outputFormat.format(date);
+			obras_de_arte nuevaObras_de_arte = new obras_de_arte(id_obra, nombre, autor, tipo, estilo, fecha3);
 
 			  // CONECTAMOS LA BASE DE DATOS
 	        Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/museo", "museoadmin", "museo1234");
@@ -229,7 +243,7 @@ public class obras_de_arte {
 	        consulta.setString(3, autor);
 	        consulta.setString(4, tipo);
 	        consulta.setString(5, estilo);
-	        consulta.setString(6, fecha);
+	        consulta.setString(6, fecha3);
 
 	        consulta.executeUpdate();
 			conexion.close();
