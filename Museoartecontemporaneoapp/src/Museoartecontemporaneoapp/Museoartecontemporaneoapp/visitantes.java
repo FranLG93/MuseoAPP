@@ -273,7 +273,7 @@ public class visitantes extends persona {
 		}
 
 		while (true) {
-			nuevafechavisita = JOptionPane.showInputDialog(null, "Ingresa la nueva fecha de visita del visitante ");
+			nuevafechavisita = JOptionPane.showInputDialog(null, "Ingresa la nueva fecha de visita del visitante (DD-MM-YYYY)");
 
 			// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
 			// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
@@ -286,11 +286,25 @@ public class visitantes extends persona {
 				break;
 			}
 		}
+		
+		 //AQUI PONEMOS Y DECALARAMOS ESTOS OBJETOS PARA QUE INTRODUZCAMOS  DE LA MANERA NORMAL LA FECHA Y EN LA BASE DE DATOS QUEDE EN FORMATO DATE DE AÑO,MES,DIA
+        SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+		try {
+			date = inputFormat.parse(nuevafechavisita);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+		String nuevavisitafecha = outputFormat.format(date);
 
 		try {
+			
 			Statement consulta = conexion.createStatement();
 			consulta.executeUpdate("UPDATE visitantes SET Nombre = '" + nuevonombre + "', Correo = '" + nuevocorreo
-					+ "', Contacto = '" + nuevotelefono + "', fecha_visita = '" + nuevafechavisita
+					+ "', Contacto = '" + nuevotelefono + "', fecha_visita = '" + nuevavisitafecha
 					+ "' WHERE ID_Visitante = '" + dni + "'");
 			JOptionPane.showMessageDialog(null, "Visitante actualizado correctamente");
 		} catch (SQLException e) {

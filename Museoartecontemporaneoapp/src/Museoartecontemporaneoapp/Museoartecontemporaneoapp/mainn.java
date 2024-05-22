@@ -33,60 +33,84 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import java.text.SimpleDateFormat;
 
 public class mainn {
+
+	// CREAMOS EL OBJETO Y METEMOS LA IMAGEN PARA INTRODUCIRLO EN EL JOPTION
 
 	// RUTA DE LA IMAGEN QUE SE UTILIZARA EN LOS JOPTIONPANE
 	private static String imagen = "C:\\Users\\VORPC\\Desktop\\Museo-proyecto-final-Francisco-Luengo-Gomez\\\\Nuevacarpeta\\\\QRlogo.png";
 	private static ImageIcon icono = new ImageIcon(imagen);
 
 	public static void main(String[] args) {
-		// CAMBIAMOS LA FUENTE Y EL TAMANO DE LA FUENTE EN NUESTRA APP
+		// TODO Auto-generated method stub
+
+		
+		// CAMBIAMOS LA FUENTE Y EL TAMAÑO DE NUESTRA APP
 		Font font = new Font("Arial", Font.PLAIN, 20);
 		UIManager.put("OptionPane.messageFont", font);
 		
-		// VARIABLE PARA CONTROLAR EL BUCLE DE INICIO DE SESION
+		// LLAMAMOS A NUESTRO REGISTRO PARA PODER INICIAR SESION EN NUESTRA APP
+		
 		boolean iniciar = true;
 		while (iniciar) {
-
+			
 			// SOLICITAMOS EL USUARIO Y CONTRASENA
+
 			String usuario = JOptionPane.showInputDialog(null, "            Usuario ", "",
 					JOptionPane.INFORMATION_MESSAGE, icono, null, null).toString();
-			String contrasena = JOptionPane.showInputDialog(null, "         Contrasena ", "",
+			String contraseña = JOptionPane.showInputDialog(null, "         Contraseña ", "",
 					JOptionPane.INFORMATION_MESSAGE, icono, null, null).toString();
-			if (usuario == null || contrasena == null) {
-				JOptionPane.showMessageDialog(null, "No es correcto, Volviendo al menu de inicio, ");
-				return;
-			}
+if (usuario ==null||contraseña == null){
+	JOptionPane.showMessageDialog(null, "No es correcto, Volviendo al menu de inicio, ");
+	return;
+	
+}
 			
-			// VERIFICAMOS LAS CREDENCIALES DE INICIO DE SESION
-			if ("museoadmin".equals(usuario) && "museo1234".equals(contrasena)) {
-				Font font1 = new Font("Arial", Font.PLAIN, 15);
-				UIManager.put("OptionPane.messageFont", font1);
-				JOptionPane.showMessageDialog(null, "Bienvenido al museo de arte contemporaneo");
-				mainn mainn = new mainn();
-				mainn.menuprincipal();
-				break;
-			} else {
-				JOptionPane.showMessageDialog(null, "No puedes entrar, intentalo de nuevo");
-			}
+// VERIFICAMOS LAS CREDENCIALES DE INICIO DE SESION
+			if ("museoadmin".equals(usuario))
+				if ("museo1234".equals(contraseña)) {
+
+					Font font1 = new Font("Arial", Font.PLAIN, 15);
+					UIManager.put("OptionPane.messageFont", font1);
+					
+					JOptionPane.showMessageDialog(null, "Bienvenido al museo de arte contemporaneo");
+					mainn mainn = new mainn();
+					mainn.menuprincipal();
+					break;
+				} else {
+					JOptionPane.showMessageDialog(null, "No puedes entrar, intentalo de  nuevo");
+
+				}
 		}
+
 	}
 
 	public static void menuprincipal() {
-		// USAMOS TRY-CATCH PARA MANEJAR ERRORES DE CONEXION A LA BASE DE DATOS
+		
+		// METEMOS UN TRY Y CATCH PARA EVITAR ERRORES Y PODER ENLAZARLO CORRECTAMENTE
+		// CON NUESTRA BASE DE DATOS
+
 		try {
+			
 			// CONECTAMOS A LA BASE DE DATOS
+			
 			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/museo", "museoadmin",
 					"museo1234");
 			System.out.println("Conexion OK");
@@ -100,25 +124,28 @@ public class mainn {
 			// MENU PRINCIPAL DE LA APLICACION
 			do {
 				try {
-					// OBTENEMOS LA FECHA Y HORA ACTUAL
+					
+					//introducimos localdate para meter la fecha actual que estamos y la hora de inicio
 					LocalDate dia = LocalDate.now();
+
 					LocalTime hora = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
 					System.out.println();
 					
-					// MOSTRAMOS EL MENU Y LEEMOS LA OPCION DEL USUARIO
+					//menu de nuestra app de gestion de museo
+					
 					opcion = Integer.parseInt(JOptionPane.showInputDialog(null,
+
 							"Bienvenido al sistema de gestion del Museo:  \n                         " + dia
 									+ "                  \n                               " + hora
 									+ "\n         Que es lo que deseas hacer\n" + "\n 1. Agregar trabajador\n"
-									+ "\n 2. Agregar visitante\n" + "\n 3. Agregar obra de arte\n"
-									+ "\n 4. Agregar una reserva\n" + "\n 5. Editar datos\n" + "\n 6. Borrar datos\n"
-									+ "\n 7. Ver datos guardados en la base de datos\n" + "\n 8. Ir a la pagina web\n"
-									+ "\n 9. Salir\n",
-							"\n                                                                             Museo de arte contemporaneo \n",
-							JOptionPane.INFORMATION_MESSAGE, icono, null, null).toString());
-					
-					// MANEJAMOS LAS OPCIONES DEL MENU
+									+ "\n 2. Agregar visitante\n" + "\n 3. Agregar obra de arte\n"  + "\n 4. Agregar una reserva\n"
+									+ "\n 5. Editar datos\n" + "\n 6. Borrar datos\n"
+									+ "\n 7. Ver datos guardados en la base de datos\n" + "\n 8. Ir a la pagina web\n" + "\n 9. Salir\n",
+							"\n                                                                             Museo de arte contemporaneo \n"
+									// MANEJAMOS LAS OPCIONES DEL MENU
+							, JOptionPane.INFORMATION_MESSAGE, icono, null, null).toString());
 					switch (opcion) {
+					//CREAMOS EL OBJETO CORRESPONDIENTE A CADA CLASE
 					case 1:
 						trabajadores t1 = new trabajadores(null, null, 0, null, null, null);
 						t1.agregartrabajador();
@@ -141,27 +168,30 @@ public class mainn {
 					case 6:
 						borrardatos(conexion);
 						break;
+
 					case 7:
 						verdatos(conexion);
-						break;
-					case 8:
-						// ABRIMOS LA PAGINA WEB DEL MUSEO
-						File web = new File("C:\\Users\\VORPC\\Desktop\\Museo-proyecto-final-Francisco-Luengo-Gomez\\WEB MUSEO\\museo.html");
-						if (web.exists()) {
-							try {
-								Desktop.getDesktop().open(web);
-							} catch (IOException e) {
-								e.printStackTrace();
-							} catch (IllegalArgumentException e) {
-								System.err.println("El archivo no es valido o no puede ser abierto.");
-								e.printStackTrace();
-							}
-						} else {
-							System.err.println("El archivo no existe.");
-						}
-						break;
+					case 8 :
+						
+						//VINCULACION A PAG WEB (Ayuda dani)
+						  File web = new File("C:\\Users\\VORPC\\Desktop\\Museo-proyecto-final-Francisco-Luengo-Gomez\\WEB MUSEO\\museo.html");
+					        if (web.exists()) {
+					            try {
+					                Desktop.getDesktop().open(web);
+					            } catch (IOException e) {
+					                e.printStackTrace();
+					            } catch (IllegalArgumentException e) {
+					                System.err.println("El archivo no es válido o no puede ser abierto.");
+					                e.printStackTrace();
+					            }
+					        } else {
+					            System.err.println("El archivo no existe.");
+					        }
+					    
+					
+					
 					case 9:
-						// SALIMOS DEL SISTEMA
+						// SALIMOS DE LA APP
 						JOptionPane.showMessageDialog(null,
 								"Gracias por usar el sistema del museo, \n            Saliendo del sistema...\n",
 								"Museo de arte contemporaneo", JOptionPane.INFORMATION_MESSAGE, icono);
@@ -171,10 +201,12 @@ public class mainn {
 								JOptionPane.ERROR_MESSAGE);
 						break;
 					}
+
 				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "Por favor, introduce un numero del menu", "Error",
+					JOptionPane.showMessageDialog(null, "Por favor, introduce un numero del menu" + "", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
+
 			} while (opcion != 9);
 
 			// CERRAMOS LA CONEXION CON LA BASE DE DATOS
@@ -183,6 +215,7 @@ public class mainn {
 			JOptionPane.showMessageDialog(null, "Error al conectarse con la base de datos: " + e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
+
 	}
 
 	private static void editardatos(Connection conexion) {
@@ -191,13 +224,15 @@ public class mainn {
 				"Seleccione el tipo de dato que desea editar:\n" + "1. Trabajador\n" + "2. Visitante\n"
 						+ "3. Obra de arte\n",
 				"Edicion de datos", JOptionPane.QUESTION_MESSAGE, icono, null, null).toString());
-
-		// DEPENDIENDO DE LA OPCION, LLAMAMOS AL METODO CORRESPONDIENTE PARA EDITAR
+		
+		// DEPENDIENDO DE LA OPCION QUE PONGAMOS, LLAMAMOS AL METODO CORRESPONDIENTE PARA EDITAR
 		switch (editar) {
 		case 1:
+			//CREAMOS EL OBJETO CORRESPONDIENTE A CADA CLASE
 			trabajadores t2 = new trabajadores(null, null, editar, null, null, null);
 			((trabajadores) t2).editartrabajador(conexion);
 			break;
+
 		case 2:
 			visitantes v2 = new visitantes(null, null, editar, null, editar, null);
 			((visitantes) v2).editarvisitante(conexion);
@@ -216,10 +251,10 @@ public class mainn {
 		// SOLICITAMOS EL TIPO DE DATO A BORRAR
 		int borr = Integer.parseInt(JOptionPane.showInputDialog(null,
 				"Seleccione el tipo de dato que desea borrar\n" + "1. Trabajadores\n" + "2. Visitantes\n"
-						+ "3. Obras de arte\n" + "4. Reservas\n",
+						+ "3. Obras de arte\n"+ "4. Reservas\n",
 				"Eliminar datos", JOptionPane.QUESTION_MESSAGE, icono, null, null).toString());
-
-		// DEPENDIENDO DE LA OPCION, LLAMAMOS AL METODO CORRESPONDIENTE PARA BORRAR
+		// DEPENDIENDO DE LA OPCION QUE PONGAMOS, LLAMAMOS AL METODO CORRESPONDIENTE PARA BORRAR
+		
 		switch (borr) {
 		case 1:
 			trabajadores b1 = new trabajadores(null, null, 0, null, null, null);
@@ -235,8 +270,7 @@ public class mainn {
 			break;
 		case 4:
 			reserva b4 = new reserva(null, null, 0, null, null, 0, null);
-			((reserva) b4).borrarreserva(conexion);
-			break;
+			((reserva)b4).borrarreserva(conexion);
 		default:
 			JOptionPane.showMessageDialog(null, "Esto no se puede hacer", "Error", JOptionPane.ERROR_MESSAGE);
 			break;
@@ -244,24 +278,24 @@ public class mainn {
 	}
 
 	private static void verdatos(Connection conexion) {
-		// SOLICITAMOS EL TIPO DE DATO A CONSULTAR
 		int tipoConsulta = Integer.parseInt(JOptionPane.showInputDialog(null,
+				// SOLICITAMOS EL TIPO DE DATO QUE QUEREMOS CONSULTAR
+				
 				"Que datos que quieres ver:\n" + "1. Trabajadores\n" + "2. Visitantes\n" + "3. Obras de Arte\n"
 						+ "4. Reservas\n",
 				"Consulta de datos", JOptionPane.QUESTION_MESSAGE, icono, null, null).toString());
-
+//DENTRO DEL TRY PONEMOS PARA ESCRIBIR NUESTRO FICHERO PARA CUANDO HAGA UNA CONSULTA SE GUARDE EN NUESTRO TXT
+		
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter("datos_museo.txt", true))) {
 			Statement consulta = conexion.createStatement();
 			ResultSet resultado;
 			String datos = "";
-			
-			// DEPENDIENDO DE LA OPCION, EJECUTAMOS LA CONSULTA CORRESPONDIENTE Y GUARDAMOS LOS DATOS
 			switch (tipoConsulta) {
 			case 1:
 				resultado = consulta.executeQuery("SELECT * FROM trabajadores");
 				while (resultado.next()) {
 					datos += "DNI: " + resultado.getString("ID_Trabajador") + ", Nombre: "
-							+ resultado.getString("Nombre") + ", Posicion: " + resultado.getString("Posicion")
+							+ resultado.getString("Nombre") + ", Posición: " + resultado.getString("Posicion")
 							+ ", Departamento: " + resultado.getString("Departamento") + ", Contacto: "
 							+ resultado.getString("Contacto") + "\n";
 				}
@@ -295,8 +329,7 @@ public class mainn {
 				}
 				break;
 			}
-			
-			// ESCRIBIMOS LOS DATOS EN UN ARCHIVO DE TEXTO Y LOS MOSTRAMOS EN UN JOPTIONPANE
+			// ESCRIBIMOS LOS DATOS EN UN ARCHIVO DE TEXTO Y LOS MOSTRAMOS EN EL JOPTIONPANE
 			writer.write(datos.isEmpty() ? "No hay nada que mostrar.\n" : datos);
 			JOptionPane.showMessageDialog(null, datos.isEmpty() ? "No hay nada que mostrar." : datos);
 		} catch (SQLException | IOException e) {

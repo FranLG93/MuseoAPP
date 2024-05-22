@@ -359,11 +359,25 @@ public class obras_de_arte {
 				break;
 			}
 		}
+		
+			 //AQUI PONEMOS Y DECALARAMOS ESTOS OBJETOS PARA QUE INTRODUZCAMOS  DE LA MANERA NORMAL LA FECHA Y EN LA BASE DE DATOS QUEDE EN FORMATO DATE DE AÑO,MES,DIA
+	        SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+	        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        Date date = null;
+			try {
+				date = inputFormat.parse(nuevafecha);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+			String nuevafechaobra = outputFormat.format(date);
+
 
 		try {
 			Statement consulta = conexion.createStatement();
 			consulta.executeUpdate("UPDATE obras_de_arte SET Nombre = '" + nuevonombre + "', Autor = '" + nuevoautor
-					+ "', Tipo = '" + nuevotipo + "', Estilo = '" + nuevoestilo + "', Fecha = '" + nuevafecha
+					+ "', Tipo = '" + nuevotipo + "', Estilo = '" + nuevoestilo + "', Fecha = '" + nuevafechaobra
 					+ "' WHERE ID_Obra = '" + id_obra + "'");
 			JOptionPane.showMessageDialog(null, "Obra actualizada correctamente");
 		} catch (SQLException e) {
