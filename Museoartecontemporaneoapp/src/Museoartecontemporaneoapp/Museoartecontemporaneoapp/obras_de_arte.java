@@ -38,6 +38,8 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class obras_de_arte {
+	
+	//VARIABLES
 
 	private String id_obra;
 	private String nombre;
@@ -45,6 +47,8 @@ public class obras_de_arte {
 	private String tipo;
 	private String estilo;
 	private String fecha;
+	
+	//CONSTRUCTOR
 
 	public obras_de_arte(String id_obra, String nombre, String autor, String tipo, String estilo, String fecha) {
 		super();
@@ -56,6 +60,7 @@ public class obras_de_arte {
 		this.fecha = fecha;
 	}
 
+	//GETTERS AND SETTERS
 	public String getId_obra() {
 		return id_obra;
 	}

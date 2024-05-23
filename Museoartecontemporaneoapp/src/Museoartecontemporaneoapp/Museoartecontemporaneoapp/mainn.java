@@ -171,6 +171,7 @@ if (usuario ==null||contraseña == null){
 
 					case 7:
 						verdatos(conexion);
+						break;
 					case 8 :
 						
 						//VINCULACION A PAG WEB (Ayuda dani)
@@ -181,14 +182,14 @@ if (usuario ==null||contraseña == null){
 					            } catch (IOException e) {
 					                e.printStackTrace();
 					            } catch (IllegalArgumentException e) {
-					                System.err.println("El archivo no es válido o no puede ser abierto.");
+					                System.err.println("El archivo no es valido o no puede ser abierto.");
 					                e.printStackTrace();
 					            }
 					        } else {
 					            System.err.println("El archivo no existe.");
 					        }
 					    
-					
+					        break;
 					
 					case 9:
 						// SALIMOS DE LA APP
