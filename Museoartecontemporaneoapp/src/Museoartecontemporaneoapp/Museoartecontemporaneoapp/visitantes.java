@@ -334,8 +334,8 @@ public class visitantes extends persona {
 
 		try {
 			Statement consulta = conexion.createStatement();
-			int filasAfectadas = consulta.executeUpdate("DELETE FROM visitantes WHERE ID_Visitante = '" + id_dni + "'");
-			if (filasAfectadas > 0) {
+			int filaseliminadas = consulta.executeUpdate("DELETE FROM visitantes WHERE ID_Visitante = '" + id_dni + "'");
+			if (filaseliminadas > 0) {
 				JOptionPane.showMessageDialog(null, "Visitante eliminado correctamente");
 			} else {
 				JOptionPane.showMessageDialog(null, "No se encontro el visitante con DNI: " + id_dni, "Error",

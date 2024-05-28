@@ -413,11 +413,11 @@ public class obras_de_arte {
 
 		try {
 			Statement consulta = conexion.createStatement();
-			int filasAfectadas = consulta.executeUpdate("DELETE FROM obras_de_arte WHERE ID_Obra = '" + id_obra + "'");
+			int filaseliminadas = consulta.executeUpdate("DELETE FROM obras_de_arte WHERE ID_Obra = '" + id_obra + "'");
 
 			// QUITAMOS ERRORES AÑADIENTE UN IF CON QUE SEA NULO Y EL TRIM LE DECIMOS QUE
 			// ESTA VACIO Y LE DAMOS UN RETURN PARA VOLVER AL MENU
-			if (filasAfectadas > 0) {
+			if (filaseliminadas > 0) {
 				JOptionPane.showMessageDialog(null, "Obra eliminada correctamente");
 			} else {
 				JOptionPane.showMessageDialog(null, "No se encontro la obra de con id: " + id_obra, "Error",

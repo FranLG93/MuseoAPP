@@ -327,9 +327,9 @@ public class trabajadores extends persona {
 
 		try {
 			Statement consulta = conexion.createStatement();
-			int filasAfectadas = consulta
+			int filaseliminadas = consulta
 					.executeUpdate("DELETE FROM trabajadores WHERE ID_Trabajador = '" + id_dni + "'");
-			if (filasAfectadas > 0) {
+			if (filaseliminadas > 0) {
 				JOptionPane.showMessageDialog(null, "Trabajador eliminado correctamente");
 			} else {
 				JOptionPane.showMessageDialog(null, "No se encontro el trabajador con DNI: " + id_dni, "Error",
