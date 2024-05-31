@@ -166,6 +166,7 @@ public class visitantes extends persona {
 			int telefonoInt = Integer.parseInt(telefono);
 			
 			//AQUI PONEMOS Y DECALARAMOS ESTOS OBJETOS PARA QUE INTRODUZCAMOS  DE LA MANERA NORMAL LA FECHA Y EN LA BASE DE DATOS QUEDE EN FORMATO DATE DE AÑO,MES,DIA
+			//EL CAMBIO DE FORMATO PARA ADAPTARLO A LA BASE DE DATOS HECHO CON CHAT GPT
 	        SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
 	        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
 	        Date date = null;
@@ -288,9 +289,10 @@ public class visitantes extends persona {
 		}
 		
 		 //AQUI PONEMOS Y DECALARAMOS ESTOS OBJETOS PARA QUE INTRODUZCAMOS  DE LA MANERA NORMAL LA FECHA Y EN LA BASE DE DATOS QUEDE EN FORMATO DATE DE AÑO,MES,DIA
+		//EL CAMBIO DE FORMATO PARA ADAPTARLO A LA BASE DE DATOS HECHO CON CHAT GPT
         SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
+        Date date = null; // DAMOS VALOR NULO PARA INTRODUCIRLO POR TECLADO (CHAT GPT)
 		try {
 			date = inputFormat.parse(nuevafechavisita);
 		} catch (ParseException e) {

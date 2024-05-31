@@ -227,6 +227,7 @@ public class obras_de_arte {
 	
 		try {
 			//AQUI PONEMOS Y DECALARAMOS ESTOS OBJETOS PARA QUE INTRODUZCAMOS  DE LA MANERA NORMAL LA FECHA Y EN LA BASE DE DATOS QUEDE EN FORMATO DATE DE AÑO,MES,DIA
+			//EL CAMBIO DE FORMATO PARA ADAPTARLO A LA BASE DE DATOS HECHO CON CHAT GPT
 	        SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
 	        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
 	        Date date = null;
@@ -366,6 +367,7 @@ public class obras_de_arte {
 		}
 		
 			 //AQUI PONEMOS Y DECALARAMOS ESTOS OBJETOS PARA QUE INTRODUZCAMOS  DE LA MANERA NORMAL LA FECHA Y EN LA BASE DE DATOS QUEDE EN FORMATO DATE DE AÑO,MES,DIA
+		//EL CAMBIO DE FORMATO PARA ADAPTARLO A LA BASE DE DATOS HECHO CON CHAT GPT
 	        SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
 	        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
 	        Date date = null;

@@ -87,7 +87,9 @@ if (usuario ==null||contraseña == null){
 			if ("museoadmin".equals(usuario))
 				if ("museo1234".equals(contraseña)) {
 
-					Font font1 = new Font("Arial", Font.PLAIN, 15);
+					//CAMBIAR FUENTE 
+					
+					Font font1 = new Font("Arial", Font.PLAIN, 15); //CHAT GPT
 					UIManager.put("OptionPane.messageFont", font1);
 					
 					JOptionPane.showMessageDialog(null, "Bienvenido al museo de arte contemporaneo");
@@ -101,6 +103,8 @@ if (usuario ==null||contraseña == null){
 		}
 
 	}
+	
+	//CREAMOS UN METODO NUEVO PARA QUE AL INTRODUCIR CORRECTAMENTE NUESTRA CONTRASEÑA NOS DESPLEGUE NUESTRO MENU
 
 	public static void menuprincipal() {
 		
@@ -128,7 +132,7 @@ if (usuario ==null||contraseña == null){
 					//introducimos localdate para meter la fecha actual que estamos y la hora de inicio
 					LocalDate dia = LocalDate.now();
 
-					LocalTime hora = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
+					LocalTime hora = LocalTime.now().truncatedTo(ChronoUnit.MINUTES); 
 					System.out.println();
 					
 					//menu de nuestra app de gestion de museo
@@ -285,6 +289,7 @@ if (usuario ==null||contraseña == null){
 				"Que datos que quieres ver:\n" + "1. Trabajadores\n" + "2. Visitantes\n" + "3. Obras de Arte\n"
 						+ "4. Reservas\n",
 				"Consulta de datos", JOptionPane.QUESTION_MESSAGE, icono, null, null).toString());
+		
 //DENTRO DEL TRY PONEMOS PARA ESCRIBIR NUESTRO FICHERO PARA CUANDO HAGA UNA CONSULTA SE GUARDE EN NUESTRO TXT
 		
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter("datos_museo.txt", true))) {
@@ -331,7 +336,8 @@ if (usuario ==null||contraseña == null){
 				break;
 			}
 			// ESCRIBIMOS LOS DATOS EN UN ARCHIVO DE TEXTO Y LOS MOSTRAMOS EN EL JOPTIONPANE
-			writer.write(datos.isEmpty() ? "No hay nada que mostrar.\n" : datos);
+			writer.write(datos.isEmpty() ? "No hay nada que mostrar.\n" : datos); //CERRAMOS EL BUFFER WRITER PARA RECOPILAR TODOS LOS DATOS
+			
 			JOptionPane.showMessageDialog(null, datos.isEmpty() ? "No hay nada que mostrar." : datos);
 		} catch (SQLException | IOException e) {
 			JOptionPane.showMessageDialog(null, "Error al consultar los datos: " + e.getMessage(), "Error",
